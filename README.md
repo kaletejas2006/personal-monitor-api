@@ -1,5 +1,5 @@
-# cricket-analysis-api
-Project for developing a REST API using Django for analysing cricket data
+# personal-monitor-api
+Project for developing a REST API using Django for storing, retrieving, and analysing personal information like finances, time tracking, etc. This API is intended to be *local-only* i.e. no cloud involved.
 
 ## Accessing the repository
 On my work machine, accessing the repository can be tricky as this repository is created using my personal Github 
