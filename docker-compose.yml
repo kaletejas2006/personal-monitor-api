@@ -1,0 +1,25 @@
+# Docker-compose version, mainly used as syntax reference.
+version: "3.9"
+
+# A docker-compose file can define one or more services.
+services:
+  # Name of the service which will run our Dockerfile.
+  app:
+    build:
+      # Indicates that we will build our image from the current directory.
+      context: .
+      # Custom arguments.
+      args:
+        - DEV=true
+    ports:
+      # Maps ports 8000 on our local machine and Docker container.
+      - "8000:8000"
+    volumes:
+      # Maps a directory from our local machine to Docker container.
+      # It acts as a symlink instead of copy so that any changes that we make
+      # in our local machine are automatically reflected in our container
+      # without having to rebuild it.
+      - ./app:/app
+    # Default command to run to start our service.
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
