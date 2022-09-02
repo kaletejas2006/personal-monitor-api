@@ -1,0 +1,8 @@
+
+[flake8]
+# Files/Directories that should not be linted.
+exclude=
+    migrations,
+    __pycache__,
+    manage.py,
+    settings.py
