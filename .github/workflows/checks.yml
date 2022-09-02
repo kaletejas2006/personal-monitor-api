@@ -1,0 +1,28 @@
+---
+# Configuration for GitHub Actions.
+name: Checks
+
+on: [push]
+
+jobs:
+  # `lint-test` is the job ID.
+  lint-test:
+    name: Lint and Test
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Login to Docker Hub
+        # `uses` is a way to specify the action to perform. `docker/login-action@v1` is
+        # a pre-built GitHub Action which is a Docker container under the hood that
+        # performs certain actions.
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Checkout
+        # Checks out our repository inside the GitHub Actions container.
+        uses: actions/checkout@v2
+      - name: Test
+        # `python manage.py test` executes unit tests on our project.
+        run: docker-compose run --rm app sh -c "python manage.py test"
+      - name: Lint
+        run: docker-compose run --rm app sh -c "flake8"
