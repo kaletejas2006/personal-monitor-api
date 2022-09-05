@@ -9,6 +9,7 @@ COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements-dev.txt /tmp/requirements-dev.txt
 COPY ./app /app
 WORKDIR /app
+
 # The port on our Docker container through which we can communicate with it via our local machine.
 EXPOSE 8000
 

@@ -19,3 +19,4 @@ git clone https://tejas-kale@github.com/tejas-kale/cricket-analysis-api.git
 `docker-compose run --rm app sh -c "django-admin startproject app ."`. The `.` at the end ensures that the
 project is created in our root directory. If not specified, an `app` sub-directory will be created by Django
 inside the `app` directory leading to a confusing directory structure.
+- To run unit tests in Docker container, run the command `docker-compose run --rm app sh -c "python manage.py test"`.
