@@ -3,7 +3,9 @@ version: "3.9"
 
 # A docker-compose file can define one or more services.
 services:
-  # Name of the service which will run our Dockerfile.
+  # Name of the service which will run our Dockerfile. Docker-compose automatically
+  # creates a network between the various services spawned, and they can refer to
+  # each other by their services names.
   app:
     build:
       # Indicates that we will build our image from the current directory.
@@ -23,3 +25,34 @@ services:
     # Default command to run to start our service.
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    # Here we specify the environment variables useful for the app. This includes
+    # parameters to access a database in our database server.
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASSWORD=changeme
+    # With the `depends_on` argument, we can dictate the order in which containers
+    # are created. Thus, it ensures that the service has started but does NOT ensure
+    # if the underlying application has started as well.
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      # Maps the directory `dev-db-data` on our local machine to a location in the
+      # container. From the PostgreSQL documentation, we see that data in a database
+      # is persisted in the directory `/var/lib/postgresql/data`. With volumes, we
+      # can persist data on our local machine thus eliminating the need to recreate
+      # the data with each run.
+      - dev-db-data:/var/lib/postgresql/data
+    # As this is a development environment, we specify the database name, user, and
+    # password here itself.
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
